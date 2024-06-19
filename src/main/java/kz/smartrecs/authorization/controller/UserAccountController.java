@@ -1,7 +1,7 @@
 package kz.smartrecs.authorization.controller;
 
 import kz.smartrecs.authorization.entity.UserAccount;
-import kz.smartrecs.authorization.repository.UserAccountRepository;
+
 import kz.smartrecs.authorization.service.UserAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
