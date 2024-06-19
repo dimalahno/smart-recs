@@ -1,5 +1,6 @@
 package kz.smartrecs.authorization.controller;
 
+import jakarta.validation.Valid;
 import kz.smartrecs.authorization.entity.UserAccount;
 
 import kz.smartrecs.authorization.service.UserAccountService;
@@ -19,7 +20,7 @@ public class UserAccountController {
     private final UserAccountService userAccountService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUserAccount(@RequestBody UserAccount userAccount) {
+    public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserAccount userAccount) {
         ResponseEntity<String> response = null;
         try {
             if (userAccountService.registerUserAccount(userAccount)) {

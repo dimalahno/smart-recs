@@ -1,9 +1,12 @@
 package kz.smartrecs.authorization.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import kz.smartrecs.authorization.validator.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
+
 
 @Entity
 @Table(schema = "public", name = "user_account")
@@ -15,24 +18,25 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
+    @NotBlank
     private String firstName;
 
-    @NonNull
+    @NotBlank
     private String lastName;
 
     private String middleName;
 
-    @NonNull
+    @NotBlank
+    @ValidEmail
     private String email;
 
-    @NonNull
+    @NotBlank
     private String pwd;
 
-    @NonNull
+    @NotBlank
     private String role;
 
-    @NonNull
+    @NotNull
     private Boolean isActive;
 
 }
