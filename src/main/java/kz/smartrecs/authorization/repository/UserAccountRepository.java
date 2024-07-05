@@ -12,4 +12,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
     List<UserAccount> findByEmailAndIsActive(String email, Boolean isActive);
 
     UserAccount getUserAccountByEmail(String email);
+
+    UserAccount findUserAccountByEmailAndIsActive(String email, Boolean isActive);
 }
