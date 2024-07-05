@@ -20,7 +20,7 @@ CREATE TABLE user_account
     last_name   VARCHAR(254) NOT NULL,
     middle_name VARCHAR(254),
     email       VARCHAR(254) NOT NULL UNIQUE,
-    pwd         VARCHAR(32)  NOT NULL,
+    pwd         VARCHAR(64)  NOT NULL,
     role        VARCHAR(50)  NOT NULL,
     is_active   BOOLEAN DEFAULT FALSE
 );
@@ -51,3 +51,5 @@ VALUES ('Dmitry', 'Lahno', 'Alexandrovich', 'dima@test.kz', '54321', 'admin', TR
 
 SELECT *
 FROM user_account;
+
+ALTER TABLE user_account ALTER COLUMN pwd TYPE VARCHAR(64);
