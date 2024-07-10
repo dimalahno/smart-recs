@@ -1,9 +1,9 @@
 package kz.smartrecs.authorization.controller;
 
 import jakarta.validation.Valid;
-import kz.smartrecs.authorization.entity.UserAccount;
+import kz.smartrecs.authorization.entity.Customer;
 
-import kz.smartrecs.authorization.service.UserAccountService;
+import kz.smartrecs.authorization.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/user-account")
+@RestController("/customer")
 @RequiredArgsConstructor
 @Slf4j
-public class UserAccountController {
+public class CustomerController {
 
-    private final UserAccountService userAccountService;
+    private final CustomerService customerService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserAccount userAccount) {
+    public ResponseEntity<String> registerUserAccount(@Valid @RequestBody Customer customer) {
         ResponseEntity<String> response = null;
         try {
-            String hashPwd = passwordEncoder.encode(userAccount.getPwd());
-            userAccount.setPwd(hashPwd);
-            if (userAccountService.registerUserAccount(userAccount)) {
+            String hashPwd = passwordEncoder.encode(customer.getPwd());
+            customer.setPwd(hashPwd);
+            if (customerService.registerUserAccount(customer)) {
                 response = ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body("New user account registered successfully");

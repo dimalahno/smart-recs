@@ -7,16 +7,18 @@ import kz.smartrecs.authorization.validator.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 
 @Entity
-@Table(schema = "public", name = "user_account")
+@Table(schema = "public", name = "customer")
 @Data
 @NoArgsConstructor
-public class UserAccount {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer customerId;
 
     @NotBlank
     private String firstName;
@@ -30,6 +32,10 @@ public class UserAccount {
     @ValidEmail
     private String email;
 
+    @NotNull
+    private String mobileNumber;
+
+
     @NotBlank
     private String pwd;
 
@@ -38,5 +44,7 @@ public class UserAccount {
 
     @NotNull
     private Boolean isActive;
+
+    private Date createDt;
 
 }

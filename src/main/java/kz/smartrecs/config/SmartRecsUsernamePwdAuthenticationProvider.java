@@ -1,7 +1,7 @@
 package kz.smartrecs.config;
 
-import kz.smartrecs.authorization.entity.UserAccount;
-import kz.smartrecs.authorization.repository.UserAccountRepository;
+import kz.smartrecs.authorization.entity.Customer;
+import kz.smartrecs.authorization.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,21 +24,21 @@ import java.util.Objects;
 @Slf4j
 public class SmartRecsUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
-    private final UserAccountRepository userAccountRepository;
+    private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userName = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        UserAccount activeUserAccount = userAccountRepository.findUserAccountByEmailAndIsActive(userName, true);
-        if (Objects.isNull(activeUserAccount)) {
+        Customer activeCustomer = customerRepository.findUserAccountByEmailAndIsActive(userName, true);
+        if (Objects.isNull(activeCustomer)) {
             log.warn("Authenticated user {} not found!", userName);
             throw new UsernameNotFoundException("User details not found for the user: " + userName);
         } else {
-            if (passwordEncoder.matches(pwd, activeUserAccount.getPwd())) {
+            if (passwordEncoder.matches(pwd, activeCustomer.getPwd())) {
                 List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(activeUserAccount.getRole()));
+                authorities.add(new SimpleGrantedAuthority(activeCustomer.getRole()));
                 return new UsernamePasswordAuthenticationToken(userName, pwd, authorities);
             } else {
                 log.warn("Authenticated user {} input invalid password {}", userName, pwd);
