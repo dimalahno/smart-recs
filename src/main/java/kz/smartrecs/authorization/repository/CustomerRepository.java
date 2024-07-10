@@ -1,6 +1,6 @@
 package kz.smartrecs.authorization.repository;
 
-import kz.smartrecs.authorization.entity.Customer;
+import kz.smartrecs.authorization.model.Customer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

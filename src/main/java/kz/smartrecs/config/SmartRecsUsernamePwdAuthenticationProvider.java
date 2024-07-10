@@ -1,6 +1,6 @@
 package kz.smartrecs.config;
 
-import kz.smartrecs.authorization.entity.Customer;
+import kz.smartrecs.authorization.model.Customer;
 import kz.smartrecs.authorization.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

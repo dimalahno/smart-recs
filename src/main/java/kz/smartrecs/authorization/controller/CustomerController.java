@@ -1,7 +1,7 @@
 package kz.smartrecs.authorization.controller;
 
 import jakarta.validation.Valid;
-import kz.smartrecs.authorization.entity.Customer;
+import kz.smartrecs.authorization.model.Customer;
 
 import kz.smartrecs.authorization.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/customer")
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerController {

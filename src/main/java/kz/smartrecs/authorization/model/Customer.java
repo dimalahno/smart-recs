@@ -1,4 +1,4 @@
-package kz.smartrecs.authorization.entity;
+package kz.smartrecs.authorization.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +35,6 @@ public class Customer {
     @NotNull
     private String mobileNumber;
 
-
     @NotBlank
     private String pwd;
 
@@ -46,5 +45,4 @@ public class Customer {
     private Boolean isActive;
 
     private Date createDt;
-
 }
