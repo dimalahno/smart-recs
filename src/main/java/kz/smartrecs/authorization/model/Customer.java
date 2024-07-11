@@ -1,8 +1,8 @@
 package kz.smartrecs.authorization.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import kz.smartrecs.authorization.validator.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,28 +20,35 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
 
+    /**
+     * Имя
+     */
     @NotBlank
     private String firstName;
 
+    /**
+     * Фамилия
+     */
     @NotBlank
     private String lastName;
 
+    /**
+     * Отчество
+     */
     private String middleName;
 
     @NotBlank
     @ValidEmail
     private String email;
 
-    @NotNull
+    @NotBlank
     private String mobileNumber;
 
-    @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;
 
-    @NotBlank
     private String role;
 
-    @NotNull
     private Boolean isActive;
 
     private Date createDt;

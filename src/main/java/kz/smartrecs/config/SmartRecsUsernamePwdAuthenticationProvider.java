@@ -31,7 +31,7 @@ public class SmartRecsUsernamePwdAuthenticationProvider implements Authenticatio
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userName = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        Customer activeCustomer = customerRepository.findUserAccountByEmailAndIsActive(userName, true);
+        Customer activeCustomer = customerRepository.findByEmailAndIsActive(userName, true);
         if (Objects.isNull(activeCustomer)) {
             log.warn("Authenticated user {} not found!", userName);
             throw new UsernameNotFoundException("User details not found for the user: " + userName);

@@ -15,7 +15,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public boolean registerUserAccount(Customer customer) {
+    public boolean registerUserAccount(final Customer customer) {
         if (isUserAccountPresent(customer)) {
             return customerRepository.save(customer).getCustomerId() > 0;
         } else {
@@ -24,8 +24,9 @@ public class CustomerService {
         }
     }
 
-    private boolean isUserAccountPresent(Customer customer) {
-        Customer account = customerRepository.getUserAccountByEmail(customer.getEmail());
+    // TODO переделать с учётом активности аккаунта
+    private boolean isUserAccountPresent(final Customer customer) {
+        Customer account = customerRepository.findByEmail(customer.getEmail());
         return Objects.isNull(account);
     }
 }
