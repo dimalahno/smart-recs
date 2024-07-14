@@ -1,26 +1,3 @@
-CREATE TABLE users
-(
-    id       SERIAL PRIMARY KEY,
-    username VARCHAR(50)  NOT NULL UNIQUE,
-    password VARCHAR(500) NOT NULL,
-    enabled  BOOLEAN      NOT NULL
-);
-
-INSERT INTO users (username, password, enabled)
-VALUES ('happy', '12345', TRUE);
-CREATE TABLE authorities
-(
-    id        SERIAL PRIMARY KEY,
-    username  VARCHAR(50) NOT NULL UNIQUE,
-    authority VARCHAR(50) NOT NULL,
-    CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users (username)
-);
-INSERT INTO authorities (username, authority)
-VALUES ('happy', 'write');
-
-DROP TABLE IF EXISTS authorities;
-DROP TABLE IF EXISTS users;
-
 CREATE TABLE customer
 (
     customer_id   SERIAL
@@ -50,9 +27,6 @@ COMMENT ON COLUMN customer.create_dt IS 'Дата создания аккаун�
 
 DROP TABLE IF EXISTS user_account;
 DROP TABLE IF EXISTS accounts;
-
-
-CREATE UNIQUE INDEX ix_auth_username ON authorities (username, authority);
 
 CREATE TABLE accounts
 (
@@ -180,10 +154,41 @@ VALUES ('Home Loan Interest rates reduced',
 
 CREATE TABLE contact_messages
 (
-    contact_id    VARCHAR(50)   PRIMARY KEY,
+    contact_id    VARCHAR(50) PRIMARY KEY,
     contact_name  VARCHAR(50)   NOT NULL,
     contact_email VARCHAR(100)  NOT NULL,
     subject       VARCHAR(500)  NOT NULL,
     message       VARCHAR(2000) NOT NULL,
     create_dt     DATE DEFAULT NULL
 );
+
+DROP TABLE authorities;
+
+CREATE TABLE authorities
+(
+    id             SERIAL PRIMARY KEY,
+    customer_id    INT         NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    CONSTRAINT authorities_customer_id_fk_1 FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
+);
+
+INSERT INTO authorities (customer_id, name)
+VALUES (1, 'VIEWACCOUNT'),
+       (1, 'VIEWCARDS'),
+       (1, 'VIEWLOANS'),
+       (1, 'VIEWBALANCE');
+--
+INSERT INTO authorities (customer_id, name)
+VALUES (2, 'ROLE_USER'),
+       (2, 'ROLE_ADMIN');
+
+SELECT *
+FROM authorities
+WHERE customer_id = 2;
+
+DROP TABLE IF EXISTS authorities;
+
+SELECT *
+FROM customer c
+         JOIN authorities a ON c.customer_id = a.customer_id
+WHERE c.customer_id = 2;

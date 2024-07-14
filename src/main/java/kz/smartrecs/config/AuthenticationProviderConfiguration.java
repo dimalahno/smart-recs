@@ -1,5 +1,6 @@
 package kz.smartrecs.config;
 
+import kz.smartrecs.authorization.model.Authority;
 import kz.smartrecs.authorization.model.Customer;
 import kz.smartrecs.authorization.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SmartRecsUsernamePwdAuthenticationProvider implements AuthenticationProvider {
+public class AuthenticationProviderConfiguration implements AuthenticationProvider {
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,9 +38,7 @@ public class SmartRecsUsernamePwdAuthenticationProvider implements Authenticatio
             throw new UsernameNotFoundException("User details not found for the user: " + userName);
         } else {
             if (passwordEncoder.matches(pwd, activeCustomer.getPwd())) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(activeCustomer.getRole()));
-                return new UsernamePasswordAuthenticationToken(userName, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(userName, pwd, getGrantedAuthorities(activeCustomer.getAuthorities()));
             } else {
                 log.warn("Authenticated user {} input invalid password {}", userName, pwd);
                 throw new BadCredentialsException("Invalid password!");
@@ -50,5 +49,11 @@ public class SmartRecsUsernamePwdAuthenticationProvider implements Authenticatio
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(List<Authority> authorities) {
+        return authorities.stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
     }
 }

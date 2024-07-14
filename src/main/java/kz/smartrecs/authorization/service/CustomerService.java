@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Service
@@ -17,6 +18,7 @@ public class CustomerService {
 
     public boolean registerUserAccount(final Customer customer) {
         if (isUserAccountPresent(customer)) {
+            customer.setCreateDt(new Date());
             return customerRepository.save(customer).getCustomerId() > 0;
         } else {
             log.error("Error registering user account. UserAccount with email {} is present in database", customer.getEmail());

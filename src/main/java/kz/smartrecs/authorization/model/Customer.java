@@ -1,5 +1,6 @@
 package kz.smartrecs.authorization.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -37,10 +39,16 @@ public class Customer {
      */
     private String middleName;
 
+    /**
+     * E-mail
+     */
     @NotBlank
     @ValidEmail
     private String email;
 
+    /**
+     * Номер мобильного телефона
+     */
     @NotBlank
     private String mobileNumber;
 
@@ -52,4 +60,8 @@ public class Customer {
     private Boolean isActive;
 
     private Date createDt;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<Authority> authorities;
 }
