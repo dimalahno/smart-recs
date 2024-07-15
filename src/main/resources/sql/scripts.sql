@@ -39,7 +39,7 @@ CREATE TABLE accounts
 );
 
 INSERT INTO accounts (customer_id, account_number, account_type, branch_address)
-VALUES (1, 1865764534, 'Savings', 'Astana, Bokeychana st. 25');
+VALUES (3, 1865764535, 'Savings', 'Astana, Bokeychana st. 25');
 
 SELECT *
 FROM customer
@@ -67,21 +67,17 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 INSERT INTO account_transactions (account_number, customer_id, transaction_dt, transaction_summary,
                                   transaction_type, transaction_amt,
                                   closing_balance, create_dt)
-VALUES (1865764534, 1, CURRENT_DATE - INTERVAL '7 days', 'Coffee Shop', 'Withdrawal', 30, 34500,
-        CURRENT_DATE - INTERVAL '7 days');
-
-INSERT INTO account_transactions (account_number, customer_id, transaction_dt, transaction_summary,
-                                  transaction_type, transaction_amt,
-                                  closing_balance, create_dt)
-VALUES (1865764534, 1, CURRENT_DATE - INTERVAL '6 days', 'Uber', 'Withdrawal', 100, 34400,
+VALUES (1865764535, 3, CURRENT_DATE - INTERVAL '7 days', 'Coffee Shop', 'Withdrawal', 30, 34500,
+        CURRENT_DATE - INTERVAL '7 days'),
+       (1865764535, 3, CURRENT_DATE - INTERVAL '6 days', 'Uber', 'Withdrawal', 100, 34400,
         CURRENT_DATE - INTERVAL '6 days'),
-       (1865764534, 1, CURRENT_DATE - INTERVAL '5 days', 'Self Deposit', 'Deposit', 500, 34900,
+       (1865764535, 3, CURRENT_DATE - INTERVAL '5 days', 'Self Deposit', 'Deposit', 500, 34900,
         CURRENT_DATE - INTERVAL '5 days'),
-       (1865764534, 1, CURRENT_DATE - INTERVAL '4 days', 'Ebay', 'Withdrawal', 600, 34300,
+       (1865764535, 3, CURRENT_DATE - INTERVAL '4 days', 'Ebay', 'Withdrawal', 600, 34300,
         CURRENT_DATE - INTERVAL '4 days'),
-       (1865764534, 1, CURRENT_DATE - INTERVAL '2 days', 'OnlineTransfer', 'Deposit', 700, 35000,
+       (1865764535, 3, CURRENT_DATE - INTERVAL '2 days', 'OnlineTransfer', 'Deposit', 700, 35000,
         CURRENT_DATE - INTERVAL '2 days'),
-       (1865764534, 1, CURRENT_DATE - INTERVAL '1 days', 'Amazon.com', 'Withdrawal', 100, 34900,
+       (1865764535, 3, CURRENT_DATE - INTERVAL '1 days', 'Amazon.com', 'Withdrawal', 100, 34900,
         CURRENT_DATE - INTERVAL '1 days');
 
 CREATE TABLE loans
@@ -98,10 +94,10 @@ CREATE TABLE loans
 );
 
 INSERT INTO loans (customer_id, start_dt, loan_type, total_loan, amount_paid, outstanding_amount, create_dt)
-VALUES (1, '2020-10-13', 'Home', 200000, 50000, 150000, '2020-10-13'),
-       (1, '2020-06-06', 'Vehicle', 40000, 10000, 30000, '2020-06-06'),
-       (1, '2018-02-14', 'Home', 50000, 10000, 40000, '2018-02-14'),
-       (1, '2018-02-14', 'Personal', 10000, 3500, 6500, '2018-02-14');
+VALUES (3, '2020-10-13', 'Home', 200000, 50000, 150000, '2020-10-13'),
+       (3, '2020-06-06', 'Vehicle', 40000, 10000, 30000, '2020-06-06'),
+       (3, '2018-02-14', 'Home', 50000, 10000, 40000, '2018-02-14'),
+       (3, '2018-02-14', 'Personal', 10000, 3500, 6500, '2018-02-14');
 
 CREATE TABLE cards
 (
@@ -117,9 +113,9 @@ CREATE TABLE cards
 );
 
 INSERT INTO cards (card_number, customer_id, card_type, total_limit, amount_used, available_amount, create_dt)
-VALUES ('4565XXXX4656', 1, 'Credit', 10000, 500, 9500, CURRENT_DATE),
-       ('3455XXXX8673', 1, 'Credit', 7500, 600, 6900, CURRENT_DATE),
-       ('2359XXXX9346', 1, 'Credit', 20000, 4000, 16000, CURRENT_DATE);
+VALUES ('4565XXXX4656', 3, 'Credit', 10000, 500, 9500, CURRENT_DATE),
+       ('3455XXXX8673', 3, 'Credit', 7500, 600, 6900, CURRENT_DATE),
+       ('2359XXXX9346', 3, 'Credit', 20000, 4000, 16000, CURRENT_DATE);
 
 CREATE TABLE notice_details
 (
@@ -166,9 +162,9 @@ DROP TABLE authorities;
 
 CREATE TABLE authorities
 (
-    id             SERIAL PRIMARY KEY,
-    customer_id    INT         NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    id          SERIAL PRIMARY KEY,
+    customer_id INT         NOT NULL,
+    name        VARCHAR(50) NOT NULL,
     CONSTRAINT authorities_customer_id_fk_1 FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
 );
 
@@ -179,16 +175,19 @@ VALUES (1, 'VIEWACCOUNT'),
        (1, 'VIEWBALANCE');
 --
 INSERT INTO authorities (customer_id, name)
-VALUES (2, 'ROLE_USER'),
-       (2, 'ROLE_ADMIN');
+VALUES (3, 'ROLE_USER'),
+       (3, 'ROLE_ADMIN');
 
 SELECT *
 FROM authorities
-WHERE customer_id = 2;
+WHERE customer_id = 1;
 
 DROP TABLE IF EXISTS authorities;
 
 SELECT *
+FROM customer;
+
+SELECT *
 FROM customer c
          JOIN authorities a ON c.customer_id = a.customer_id
-WHERE c.customer_id = 2;
+WHERE c.customer_id = 3;
