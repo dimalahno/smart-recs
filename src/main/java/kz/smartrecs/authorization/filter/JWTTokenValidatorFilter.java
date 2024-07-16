@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * Фильтр валидации JWT токена
+ */
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
     @Override

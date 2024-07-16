@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Фильтр генерации JWT токена
+ */
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
 
     @Override
@@ -37,7 +40,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                             .map(GrantedAuthority::getAuthority)
                             .collect(Collectors.joining(",")))
                     .issuedAt(new Date())
-                    .expiration(new Date((new Date()).getTime() + 30_000))
+                    .expiration(new Date((new Date()).getTime() + 30_000_000))
                     .signWith(secretKey).compact();
             response.setHeader(ApplicationConstants.JWT_HEADER, jwt);
         }
